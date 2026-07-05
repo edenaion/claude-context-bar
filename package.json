@@ -115,12 +115,15 @@
         "compile": "tsc -p ./",
         "watch": "tsc -watch -p ./",
         "lint": "eslint src --ext ts",
+        "test": "vitest run",
+        "test:watch": "vitest",
         "package": "vsce package",
         "publish": "vsce publish"
     },
     "devDependencies": {
         "@types/node": "^18.0.0",
         "@types/vscode": "^1.74.0",
-        "typescript": "^5.0.0"
+        "typescript": "^5.0.0",
+        "vitest": "^2.1.9"
     }
 }
