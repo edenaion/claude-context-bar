@@ -3,6 +3,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
 import * as readline from 'readline';
+import { getContextLimitForModel } from './contextLimit';
 
 interface SessionInfo {
     projectName: string;
@@ -167,16 +168,6 @@ interface TokenUsage {
     firstMessage: string;
     sessionCreated: Date | null;
     wasCleared: boolean;  // True if session ended with /clear command
-}
-
-// Determine context limit based on model
-function getContextLimitForModel(model: string, userLimit: number): number {
-    // Sonnet 4.5 1M has 1 million token context
-    if (model.toLowerCase().includes('sonnet') && model.toLowerCase().includes('1m')) {
-        return 1000000;
-    }
-    // All other models (Sonnet 4.5, Opus 4.5, Haiku) have 200K
-    return userLimit;
 }
 
 // Fuzzy emoji matching based on project name
@@ -416,6 +407,7 @@ async function findActiveSessions(): Promise<SessionInfo[]> {
 
     const config = vscode.workspace.getConfiguration('claudeContextBar');
     const contextLimit = config.get<number>('contextLimit', 200000);
+    const modelContextLimits = config.get<Record<string, number>>('modelContextLimits', {});
     const idleTimeout = config.get<number>('idleTimeout', 180);
 
     // Only look at sessions modified within the idle timeout (active sessions)
@@ -457,7 +449,7 @@ async function findActiveSessions(): Promise<SessionInfo[]> {
                     // Extract short session ID from filename
                     const sessionId = file.name.replace('.jsonl', '').substring(0, 8);
                     // Auto-detect context limit based on model
-                    const sessionContextLimit = getContextLimitForModel(usage.model, contextLimit);
+                    const sessionContextLimit = getContextLimitForModel(usage.model, contextLimit, modelContextLimits);
                     sessions.push({
                         projectName: name,
                         projectPath: fullPath,

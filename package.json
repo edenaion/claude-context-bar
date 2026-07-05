@@ -2,7 +2,7 @@
     "name": "claude-context-bar",
     "displayName": "Claude Context Bar",
     "description": "Real-time context window usage monitor for Claude Code sessions. See token counts in your status bar with color-coded warnings.",
-    "version": "1.4.1",
+    "version": "1.5.0",
     "publisher": "ezoosk",
     "author": {
         "name": "Ed Zisk",
@@ -73,7 +73,12 @@
                 "claudeContextBar.contextLimit": {
                     "type": "number",
                     "default": 200000,
-                    "description": "Maximum context window size in tokens"
+                    "description": "Global fallback context window size in tokens. Used when no per-model override is configured and the model is not auto-detected as 1M-capable."
+                },
+                "claudeContextBar.modelContextLimits": {
+                    "type": "object",
+                    "default": {},
+                    "description": "Per-model context limits (Model ID → token limit). Exact match only — no glob or prefix matching. Example: {\"claude-opus-4-8\": 1000000}. Takes precedence over auto-detection and the global contextLimit fallback."
                 },
                 "claudeContextBar.warningThreshold": {
                     "type": "number",
@@ -115,12 +120,15 @@
         "compile": "tsc -p ./",
         "watch": "tsc -watch -p ./",
         "lint": "eslint src --ext ts",
+        "test": "vitest run",
+        "test:watch": "vitest",
         "package": "vsce package",
         "publish": "vsce publish"
     },
     "devDependencies": {
         "@types/node": "^18.0.0",
         "@types/vscode": "^1.74.0",
-        "typescript": "^5.0.0"
+        "typescript": "^5.0.0",
+        "vitest": "^2.1.9"
     }
 }

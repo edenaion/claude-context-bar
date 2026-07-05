@@ -1,8 +1,38 @@
+# VCS
 **/.git
 **/.svn
 **/.hg
 **/CVS
+
+# OS artifacts
 **/.DS_Store
 **/Thumbs.db
+
+# Dependencies
 **/node_modules
-**/*.vsix
+
+# Build artifacts
+*.vsix
+
+# TypeScript source (compiled to out/)
+src/
+
+# Build configuration
+tsconfig.json
+
+# Dev tooling configs
+.gitignore
+.vscodeignore
+.github/
+.vscode/
+.claude/
+
+# Internal documentation (README.md and CHANGELOG.md are for the marketplace)
+CLAUDE.md
+CONTEXT.md
+whats-next.md
+docs/
+researches/
+
+# Compiled test files
+**/*.test.js

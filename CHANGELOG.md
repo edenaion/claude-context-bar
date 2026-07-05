@@ -2,6 +2,20 @@
 
 All notable changes to the Claude Context Bar extension will be documented in this file.
 
+## [1.5.0] - 2026-07-06
+
+### Changed
+- **Three-tier context limit resolution**: Replaced the old ad-hoc heuristic with a priority chain
+  - **Tier 1 — User configuration**: New `modelContextLimits` setting (object, per-model token limits). Exact Model ID match. Highest priority — no model is force-capped.
+  - **Tier 2 — Auto-detection**: Model ID containing `claude-sonnet-5` is automatically detected as 1,000,000 tokens. Sonnet 5 is the only model confirmed to have universal 1M access across all subscription tiers.
+  - **Tier 3 — Global fallback**: `contextLimit` setting (default 200,000) as the bottom-layer fallback.
+- Old `sonnet` + `1m` substring heuristic removed in favor of precise `claude-sonnet-5` detection
+- Bumped version to 1.5.0
+
+### Added
+- `claudeContextBar.modelContextLimits` setting: per-model context limit overrides (object, default `{}`)
+- Unit test suite expanded to 22 tests covering all three tiers of the priority chain
+
 ## [1.4.1] - 2025-12-29
 
 ### Fixed
