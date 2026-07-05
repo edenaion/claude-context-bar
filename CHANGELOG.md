@@ -2,7 +2,7 @@
 
 All notable changes to the Claude Context Bar extension will be documented in this file.
 
-## [1.5.0] - 2025-12-29
+## [1.5.0] - 2026-07-06
 
 ### Changed
 - **Three-tier context limit resolution**: Replaced the old ad-hoc heuristic with a priority chain
