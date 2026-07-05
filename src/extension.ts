@@ -407,6 +407,7 @@ async function findActiveSessions(): Promise<SessionInfo[]> {
 
     const config = vscode.workspace.getConfiguration('claudeContextBar');
     const contextLimit = config.get<number>('contextLimit', 200000);
+    const modelContextLimits = config.get<Record<string, number>>('modelContextLimits', {});
     const idleTimeout = config.get<number>('idleTimeout', 180);
 
     // Only look at sessions modified within the idle timeout (active sessions)
@@ -448,7 +449,7 @@ async function findActiveSessions(): Promise<SessionInfo[]> {
                     // Extract short session ID from filename
                     const sessionId = file.name.replace('.jsonl', '').substring(0, 8);
                     // Auto-detect context limit based on model
-                    const sessionContextLimit = getContextLimitForModel(usage.model, contextLimit, {});
+                    const sessionContextLimit = getContextLimitForModel(usage.model, contextLimit, modelContextLimits);
                     sessions.push({
                         projectName: name,
                         projectPath: fullPath,
