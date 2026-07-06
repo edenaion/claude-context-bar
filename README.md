@@ -19,7 +19,7 @@
 
 🎨 **Auto Color Mode** — Each project automatically gets a unique pastel color for easy identification
 
-🔍 **Smart Context Detection** — Automatically detects your model (Sonnet 4.5 1M vs others) and adjusts the context limit accordingly
+🔍 **Smart Context Detection** — Three-tier context limit resolution automatically detects your model's context window
 
 ⚠️ **Color-Coded Warnings**:
 - Normal: Under 50% usage
@@ -57,7 +57,8 @@
 | `claudeContextBar.showEmoji` | `true` | Show emoji icons based on project name keywords |
 | `claudeContextBar.autoColor` | `true` | Automatically assign unique pastel colors to each project |
 | `claudeContextBar.baseColor` | `White` | Base color when Auto Color is off (subtle variations per project) |
-| `claudeContextBar.contextLimit` | `200000` | Fallback context limit (auto-detected for most models) |
+| `claudeContextBar.contextLimit` | `200000` | Global fallback context limit (used when no per-model override or auto-detection matches) |
+| `claudeContextBar.modelContextLimits` | `{}` | Per-model context limits: Model ID → token limit (e.g., `{"claude-opus-4-8": 1000000}`). Exact match, highest priority |
 | `claudeContextBar.warningThreshold` | `50` | Percentage for yellow warning |
 | `claudeContextBar.dangerThreshold` | `75` | Percentage for red danger |
 | `claudeContextBar.refreshInterval` | `30` | Refresh interval in seconds |
@@ -67,10 +68,13 @@
 
 ## How It Works
 
-The extension reads Claude Code's session files from `~/.claude/projects/` and calculates token usage from the JSONL logs. It automatically detects which model you're using and adjusts the context limit:
+The extension reads Claude Code's session files from `~/.claude/projects/` and calculates token usage from the JSONL logs. It resolves the context limit using a three-tier priority chain:
 
-- **Claude Sonnet 4.5 1M**: 1,000,000 tokens
-- **All other models** (Sonnet 4.5, Opus 4.5, Haiku): 200,000 tokens
+1. **User configuration** — the `modelContextLimits` setting (exact Model ID match). Highest priority, overrides everything below.
+2. **Auto-detection** — a Model ID containing `claude-sonnet-5` resolves to 1,000,000 tokens. Sonnet 5 is the only model currently confirmed to have universal 1M access across all subscription tiers.
+3. **Global fallback** — the `contextLimit` setting (default 200,000 tokens), used for all other models.
+
+Claude session files record only the Model ID, with no context-window field, and a model's usable limit depends on your subscription tier and usage credits, which are not detectable from the file. So auto-detection stays conservative. For any 1M model that is not auto-detected (for example Opus 4.8 or Fable 5 when you have 1M access), set an explicit value in `modelContextLimits` and it will always be respected. No model is force-capped.
 
 Sessions inactive for more than 3 minutes (configurable via `idleTimeout`) are automatically hidden. The extension also detects when sessions have been superseded by newer ones (e.g., after running `/clear` and opening a new tab), hiding ghost sessions immediately.
 

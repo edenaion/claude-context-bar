@@ -2,6 +2,20 @@
 
 All notable changes to the Claude Context Bar extension will be documented in this file.
 
+## [1.5.0] - 2026-07-06
+
+### Changed
+☼ **Three-tier context limit resolution**: Replaced the old ad-hoc heuristic with a priority chain
+  ☼ **Tier 1 — User configuration**: New `modelContextLimits` setting (object, per-model token limits). Exact Model ID match. Highest priority, no model is force-capped.
+  ☼ **Tier 2 — Auto-detection**: A Model ID containing `claude-sonnet-5` resolves to 1,000,000 tokens. Sonnet 5 is the only model confirmed to have universal 1M access across all subscription tiers.
+  ☼ **Tier 3 — Global fallback**: `contextLimit` setting (default 200,000) as the bottom-layer fallback.
+☼ Removed the old `sonnet` + `1m` substring heuristic in favor of precise `claude-sonnet-5` detection.
+☼ Extracted the resolution logic into a pure `getContextLimitForModel` function.
+
+### Added
+☼ `claudeContextBar.modelContextLimits` setting: per-model context limit overrides (object, default `{}`).
+☼ Unit test suite (22 tests) covering all three tiers, run with Node's built-in test runner (`npm test`, no extra dependencies).
+
 ## [1.4.1] - 2025-12-29
 
 ### Fixed
