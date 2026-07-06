@@ -81,4 +81,4 @@ Sessions inactive for more than 3 minutes (configurable via `idleTimeout`) are a
 
 ## License
 
-MIT © 2025 [Ed Zisk](https://github.com/edenaion)
+MIT © 2025-2026 [Ed Zisk](https://github.com/edenaion)
