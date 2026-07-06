@@ -6,9 +6,13 @@ All notable changes to the Claude Context Bar extension will be documented in th
 
 ### Changed
 ☼ **Context limit auto-detection rewritten** to default to 1M and list the 200K exceptions, instead of the old `sonnet` + `1m` heuristic that missed nearly every model.
+
   ☼ **1M by default**: every current Claude model (Opus 4.6+, Sonnet 4.6+, Sonnet 5, Fable 5, and anything newer) resolves to 1,000,000 tokens. New models are detected automatically with no extension update.
+  
   ☼ **200K exceptions**: Haiku (all versions) and legacy generations (Claude 3.x, Sonnet 4.5 and earlier, Opus 4.5 and earlier) resolve to 200,000.
+  
   ☼ **Fallback**: unknown or non-Claude Model IDs use the `contextLimit` setting (default 200,000).
+  
 ☼ Extracted the resolution into a pure `getContextLimitForModel` function.
 
 ### Added
