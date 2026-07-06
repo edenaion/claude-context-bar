@@ -6,16 +6,16 @@
     "publisher": "ezoosk",
     "author": {
         "name": "Ed Zisk",
-        "url": "https://github.com/ezoosk"
+        "url": "https://github.com/edenaion"
     },
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/ezoosk/claude-context-bar"
+        "url": "https://github.com/edenaion/claude-context-bar"
     },
-    "homepage": "https://github.com/ezoosk/claude-context-bar#readme",
+    "homepage": "https://github.com/edenaion/claude-context-bar#readme",
     "bugs": {
-        "url": "https://github.com/ezoosk/claude-context-bar/issues"
+        "url": "https://github.com/edenaion/claude-context-bar/issues"
     },
     "icon": "images/icon.png",
     "galleryBanner": {
