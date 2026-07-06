@@ -1,8 +1,52 @@
+# VCS
 **/.git
 **/.svn
 **/.hg
 **/CVS
+
+# OS artifacts
 **/.DS_Store
 **/Thumbs.db
+
+# Dependencies
 **/node_modules
-**/*.vsix
+
+# Build artifacts
+*.vsix
+
+# TypeScript source (compiled to out/)
+src/
+
+# Build configuration
+tsconfig.json
+
+# Dev tooling configs
+.gitignore
+.vscodeignore
+.github/
+.vscode/
+.claude/
+
+# Internal documentation (README.md and CHANGELOG.md are for the marketplace)
+CLAUDE.md
+DEV-README.md
+INTERNAL-DEV-NOTES.md
+whats-next.md
+
+# Generated knowledge graph
+graphify-out/
+
+# Compiled test files
+**/*.test.js
+**/*.test.js.map
+
+# Dev-only compiled scripts (not part of the runtime extension)
+out/debug.js
+out/debug.js.map
+out/diagnose_sessions.js
+out/diagnose_sessions.js.map
+out/verify_real_data.js
+out/verify_real_data.js.map
+
+# Source maps (not needed in the published package)
+out/**/*.js.map
