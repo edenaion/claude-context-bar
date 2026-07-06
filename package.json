@@ -73,12 +73,12 @@
                 "claudeContextBar.contextLimit": {
                     "type": "number",
                     "default": 200000,
-                    "description": "Global fallback context window size in tokens. Used when no per-model override is configured and the model is not auto-detected as 1M-capable."
+                    "description": "Fallback context window size in tokens, used only for unknown or non-Claude model IDs. Current Claude models are auto-detected (1M by default, 200K for Haiku and legacy models)."
                 },
                 "claudeContextBar.modelContextLimits": {
                     "type": "object",
                     "default": {},
-                    "description": "Per-model context limits (Model ID → token limit). Exact match only, no glob or prefix matching. Example: {\"claude-opus-4-8\": 1000000}. Takes precedence over auto-detection and the global contextLimit fallback."
+                    "description": "Per-model context limit overrides (Model ID → token limit). Exact match only, no glob or prefix matching. Example: {\"claude-haiku-4-5\": 500000}. Highest priority: overrides auto-detection and the fallback for that exact model."
                 },
                 "claudeContextBar.warningThreshold": {
                     "type": "number",
