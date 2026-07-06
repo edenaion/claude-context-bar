@@ -13,6 +13,7 @@ All notable changes to the Claude Context Bar extension will be documented in th
 
 ### Added
 ☼ `claudeContextBar.modelContextLimits` setting: per-model overrides (object, default `{}`). Exact Model ID match, highest priority. No model is force-capped.
+
 ☼ Unit test suite (25 tests) run with Node's built-in test runner (`npm test`, no extra dependencies).
 
 ## [1.4.1] - 2025-12-29
