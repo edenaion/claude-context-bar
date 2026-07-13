@@ -6,6 +6,8 @@
 
 🧠 **Live Context Tracking** — See your Claude Code context usage percentage right in the status bar
 
+✴️ **Subscription Usage** — See your Claude `/usage` Session (5-hour) limit as its own status bar item (e.g. `✴️ 7%`), with color-coded warnings independent of the context colors. Hover for the full breakdown (Weekly, and per-model limits like Weekly Fable) with reset times
+
 ⚡ **Per-Tab Monitoring** — Each Claude Code tab gets its own context indicator
 
 🎯 **Fuzzy Emoji Matching** — Icons automatically match your project type based on name keywords:
@@ -61,6 +63,10 @@
 | `claudeContextBar.modelContextLimits` | `{}` | Per-model overrides: Model ID → token limit (e.g., `{"claude-haiku-4-5": 500000}`). Exact match, highest priority |
 | `claudeContextBar.warningThreshold` | `50` | Percentage for yellow warning |
 | `claudeContextBar.dangerThreshold` | `75` | Percentage for red danger |
+| `claudeContextBar.showUsage` | `true` | Show your Claude subscription usage (the 5-hour session limit from `/usage`) as a separate item |
+| `claudeContextBar.usageWarningThreshold` | `50` | Usage percentage for yellow warning (independent of context) |
+| `claudeContextBar.usageDangerThreshold` | `75` | Usage percentage for red danger (independent of context) |
+| `claudeContextBar.usageRefreshInterval` | `60` | How often (seconds) to refresh subscription usage from the `/usage` endpoint |
 | `claudeContextBar.refreshInterval` | `30` | Refresh interval in seconds |
 | `claudeContextBar.idleTimeout` | `180` | Seconds of inactivity before hiding a session (3 minutes). Set `0` to never hide idle sessions |
 | `claudeContextBar.compactMode` | `false` | Shorten project names to save status bar space |
@@ -78,6 +84,12 @@ The extension reads Claude Code's session files from `~/.claude/projects/` and c
 Claude session files record only the Model ID, with no context-window field, so the limit is inferred from the ID. The default is 1M because current frontier models all ship with a 1M window, which means new models resolve correctly with no update needed. Haiku and legacy models are the 200K exceptions. If any model is ever mis-sized (for example, your plan caps a model lower than its API window), pin an exact value in `modelContextLimits` and it always wins.
 
 Sessions inactive for more than 3 minutes (configurable via `idleTimeout`, `0` disables hiding) are automatically hidden, and reappear as soon as a resumed session writes new activity. The window regaining focus also triggers an immediate rescan. The extension also detects when sessions have been superseded by newer ones (e.g., after running `/clear` and opening a new tab), hiding ghost sessions immediately.
+
+### Subscription usage
+
+The context percentage is computed entirely from local files. The subscription usage (the `/usage` limits) is different: it is fetched from Claude's authenticated `GET /api/oauth/usage` endpoint, using the OAuth token that Claude Code stores in your OS credential store (macOS Keychain item `Claude Code-credentials`, or `~/.claude/.credentials.json` on Linux/Windows). This is the same data and the same mechanism Claude Code uses for its own `/usage` command; the token is used only as the request's `Authorization` header and is never logged or stored by the extension.
+
+Usage is refreshed on its own cadence (`usageRefreshInterval`, default 60 seconds, independent of the context refresh) and the last known value is kept during transient failures. The endpoint rate-limits frequent polling, so avoid setting the interval very low. If you are not signed in with a Claude subscription (for example, using an API key), the usage item simply doesn't appear. Turn it off entirely with `showUsage`.
 
 ## License
 

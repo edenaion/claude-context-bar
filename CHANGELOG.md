@@ -2,6 +2,18 @@
 
 All notable changes to the Claude Context Bar extension will be documented in this file.
 
+## [1.6.0] - 2026-07-24
+
+### Added
+- **Subscription usage monitor** — shows your Claude `/usage` Session (5-hour) limit as a separate status bar item (e.g. `✴️ 7%`) to the right of the context items.
+  - Usage percentage has its own warning/danger colors, independent of the context colors, via `usageWarningThreshold` (default 50) and `usageDangerThreshold` (default 75).
+  - Hover tooltip shows all subscription limits — Session (5h), Weekly (all models), and any scoped weekly limits (e.g. Weekly Fable) — with reset times.
+  - Data comes from the authenticated `GET /api/oauth/usage` endpoint, using the OAuth token from the OS credential store (macOS Keychain or `~/.claude/.credentials.json`), exactly as Claude Code does. The token is only used as a request header and is never logged.
+  - Refreshes on its own cadence (`usageRefreshInterval`, default 60s), keeps the last known value on transient failures.
+  - Toggle with the `showUsage` setting (default on). Automatically hides when not signed in with a subscription (e.g. API-key auth).
+  - Note: `/api/oauth/usage` is an undocumented endpoint reverse-engineered from Claude Code; its response shape may change without notice. The parser is defensive (two schema paths, tolerant field reading) and degrades to hiding the item rather than erroring.
+- Unit tests for the usage response parser (`parseUsage`), covering the canonical `limits` array and the flat-meter fallback.
+
 ## [1.5.1] - 2026-07-22
 
 ### Changed
