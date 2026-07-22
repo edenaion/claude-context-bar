@@ -36,6 +36,10 @@ whats-next.md
 # Generated knowledge graph
 graphify-out/
 
+# Local backups
+_BACKUPS/
+**/_BACKUPS/
+
 # Compiled test files
 **/*.test.js
 **/*.test.js.map

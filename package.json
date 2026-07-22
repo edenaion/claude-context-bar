@@ -2,7 +2,7 @@
     "name": "claude-context-bar",
     "displayName": "Claude Context Bar",
     "description": "Real-time context window usage monitor for Claude Code sessions. See token counts in your status bar with color-coded warnings.",
-    "version": "1.5.0",
+    "version": "1.5.1",
     "publisher": "ezoosk",
     "author": {
         "name": "Ed Zisk",
@@ -98,9 +98,9 @@
                 "claudeContextBar.idleTimeout": {
                     "type": "number",
                     "default": 180,
-                    "minimum": 10,
-                    "maximum": 600,
-                    "description": "Seconds of inactivity before hiding a session (default: 180 / 3 minutes). Click to manually hide."
+                    "minimum": 0,
+                    "maximum": 9999999,
+                    "description": "Seconds of inactivity before hiding a session (default: 180 / 3 minutes). Set 0 to never hide idle sessions. Click to manually hide."
                 },
                 "claudeContextBar.compactMode": {
                     "type": "boolean",

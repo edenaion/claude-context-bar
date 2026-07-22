@@ -53,6 +53,15 @@ export function activate(context: vscode.ExtensionContext) {
     });
     context.subscriptions.push(configWatcher);
 
+    // Rescan when the window regains focus so returning to a session
+    // restores its bar as soon as fresh activity lands in the session file
+    const focusWatcher = vscode.window.onDidChangeWindowState(state => {
+        if (state.focused) {
+            refreshAllSessions();
+        }
+    });
+    context.subscriptions.push(focusWatcher);
+
     // Initial scan
     refreshAllSessions();
 
@@ -411,7 +420,8 @@ async function findActiveSessions(): Promise<SessionInfo[]> {
     const idleTimeout = config.get<number>('idleTimeout', 180);
 
     // Only look at sessions modified within the idle timeout (active sessions)
-    const cutoffTime = Date.now() - (idleTimeout * 1000);
+    // idleTimeout of 0 (or negative) disables the timeout: sessions never go stale
+    const cutoffTime = idleTimeout > 0 ? Date.now() - (idleTimeout * 1000) : 0;
 
     try {
         const projectDirs = fs.readdirSync(claudeDir);

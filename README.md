@@ -62,7 +62,7 @@
 | `claudeContextBar.warningThreshold` | `50` | Percentage for yellow warning |
 | `claudeContextBar.dangerThreshold` | `75` | Percentage for red danger |
 | `claudeContextBar.refreshInterval` | `30` | Refresh interval in seconds |
-| `claudeContextBar.idleTimeout` | `180` | Seconds of inactivity before hiding a session (3 minutes) |
+| `claudeContextBar.idleTimeout` | `180` | Seconds of inactivity before hiding a session (3 minutes). Set `0` to never hide idle sessions |
 | `claudeContextBar.compactMode` | `false` | Shorten project names to save status bar space |
 | `claudeContextBar.shortNames` | `{}` | Custom short names for projects (e.g., `{"my-project": "MP"}`) |
 
@@ -77,7 +77,7 @@ The extension reads Claude Code's session files from `~/.claude/projects/` and c
 
 Claude session files record only the Model ID, with no context-window field, so the limit is inferred from the ID. The default is 1M because current frontier models all ship with a 1M window, which means new models resolve correctly with no update needed. Haiku and legacy models are the 200K exceptions. If any model is ever mis-sized (for example, your plan caps a model lower than its API window), pin an exact value in `modelContextLimits` and it always wins.
 
-Sessions inactive for more than 3 minutes (configurable via `idleTimeout`) are automatically hidden. The extension also detects when sessions have been superseded by newer ones (e.g., after running `/clear` and opening a new tab), hiding ghost sessions immediately.
+Sessions inactive for more than 3 minutes (configurable via `idleTimeout`, `0` disables hiding) are automatically hidden, and reappear as soon as a resumed session writes new activity. The window regaining focus also triggers an immediate rescan. The extension also detects when sessions have been superseded by newer ones (e.g., after running `/clear` and opening a new tab), hiding ghost sessions immediately.
 
 ## License
 

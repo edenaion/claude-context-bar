@@ -2,6 +2,14 @@
 
 All notable changes to the Claude Context Bar extension will be documented in this file.
 
+## [1.5.1] - 2026-07-22
+
+### Changed
+☼ `idleTimeout` no longer capped at 600 seconds: any value up to 9999999 is accepted, and `0` disables the timeout entirely so idle sessions never hide (#7)
+
+### Added
+☼ Sessions rescan when the VS Code window regains focus, so a resumed session's bar returns as soon as it has fresh activity instead of waiting for the next poll (#6)
+
 ## [1.5.0] - 2026-07-06
 
 ### Changed
